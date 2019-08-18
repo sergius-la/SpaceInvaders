@@ -1,4 +1,5 @@
 import turtle
+import math
 import os
 
 bullet_state = "ready"
@@ -71,6 +72,12 @@ def main():
             bullet.showturtle()
             bullet_state = "reloading"
 
+    def is_collision(t1: turtle, t2: turtle) -> bool:
+        distance = math.sqrt(math.pow(t1.xcor() - t2.xcor(), 2) + math.pow(t1.ycor() - t2.ycor(), 2))
+        if distance < 15:
+            return True
+        else:
+            return False
 
 
     # Move the player left and right
@@ -118,8 +125,13 @@ def main():
                 bullet.sety(y)
             else:
                 bullet.hideturtle()
-
                 bullet_state = "ready"
+
+        # Collision bullet and enemy
+        if is_collision(enemy, bullet):
+            bullet.hideturtle()
+            bullet_state = "ready"
+            enemy.setposition(-200, 250)
 
 
 if __name__ == '__main__':
